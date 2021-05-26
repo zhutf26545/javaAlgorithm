@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class ReentrantLock01 {
     // boolean fair true：公平策略；默认是NonfairSync
-//     Lock lock = new ReentrantLock(true);
+    // Lock lock = new ReentrantLock(true);
     Lock lock = new ReentrantLock();
 
     /**
@@ -55,6 +55,7 @@ public class ReentrantLock01 {
 
     void m3() {
         try {
+            // 可中断锁
             lock.lockInterruptibly();
             System.out.println("I'm  m3");
         } catch (InterruptedException e) {
