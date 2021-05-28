@@ -1,4 +1,4 @@
-package com.zxx.multithreading;
+package com.zxx.multithreading.JUC;
 
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;

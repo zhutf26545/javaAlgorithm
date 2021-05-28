@@ -1,4 +1,4 @@
-package com.zxx.multithreading;
+package com.zxx.multithreading.JUC;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;

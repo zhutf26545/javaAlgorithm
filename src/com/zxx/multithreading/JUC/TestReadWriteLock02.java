@@ -1,4 +1,4 @@
-package com.zxx.multithreading;
+package com.zxx.multithreading.JUC;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
