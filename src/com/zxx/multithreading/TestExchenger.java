@@ -1,5 +1,7 @@
 package com.zxx.multithreading;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Exchanger;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -10,26 +12,28 @@ import java.util.concurrent.TimeoutException;
  * @date 2021/5/23 16:01
  */
 public class TestExchenger {
-    static Exchanger<String> exchanger = new Exchanger<>();
+    static Exchanger<Map> exchanger = new Exchanger<>();
 
     public static void main(String[] args) {
         new Thread(() -> {
-            String t1 = "t1";
+            Map<String, Object> map1 = new HashMap<>();
+            map1.put("name", "lulala");
+            map1.put("age", 18);
             try {
-                exchanger.exchange(t1, 10, TimeUnit.SECONDS);
-                System.out.println(Thread.currentThread().getName() + " -- " + t1);
+                map1 = exchanger.exchange(map1);
+                System.out.println(Thread.currentThread().getName() + " -- " + map1);
             } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (TimeoutException e) {
                 e.printStackTrace();
             }
 
         }, "T1").start();
         new Thread(() -> {
-            String t2 = "t2";
+            Map<String, Object> map2 = new HashMap<>();
+            map2.put("name", "hahaha");
+            map2.put("age", 20);
             try {
-                exchanger.exchange(t2);
-                System.out.println(Thread.currentThread().getName() + " -- " + t2);
+                map2 = exchanger.exchange(map2);
+                System.out.println(Thread.currentThread().getName() + " -- " + map2);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

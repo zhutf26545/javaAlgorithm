@@ -16,13 +16,13 @@ public class TestCyclicBarrier {
 
     /**
      * CyclicBarrier 栅栏
-     * 类似于公司团建，有20个人报名参加，到了团建出发那天，必须等人到齐了在进行活动
+     * 类似于公司团建，有X个人报名参加，到了团建出发那天，必须等人到齐了在进行活动
      */
-    private static CyclicBarrier cb = new CyclicBarrier(20, () ->
+    static int peopleNum = 5;
+    private static CyclicBarrier cb = new CyclicBarrier(peopleNum, () ->
             System.out.println("人到齐了，出发吧！")
     );
     private static AtomicInteger num = new AtomicInteger(0);
-
 
     /**
      * CountDownLatch和CyclicBarrier都有让多个线程等待同步然后再开始下一步动作的意思，
@@ -32,7 +32,7 @@ public class TestCyclicBarrier {
      */
     public static void main(String[] args) {
         TestCyclicBarrier tcb = new TestCyclicBarrier();
-        for (int i = 0; i < cb.getParties(); i++) {
+        for (int i = 0; i < peopleNum; i++) {
            new Thread(() -> {
                try {
                    System.out.println("第" + num.incrementAndGet() + "人到了！");
@@ -43,6 +43,7 @@ public class TestCyclicBarrier {
            }).start();
         }
 
-//        System.out.println("I'm main!");
+        // Cyclicbarrier不会阻塞主线程运行
+        System.out.println("I'm main!");
     }
 }
