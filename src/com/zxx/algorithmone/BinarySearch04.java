@@ -60,13 +60,15 @@ public class BinarySearch04 {
 
     /**
      * 获取相邻位置，不相等的数组
+     *
      * @param length
      * @param value
      * @return
      */
     public static int[] getInt1(int length, int value) {
-        int[] arr = new int[length];
-        for (int i = 0; i < length; i++) {
+        int arrL = (int) (Math.random() * (length - 1) + 2);
+        int[] arr = new int[arrL];
+        for (int i = 0; i < arrL; i++) {
             arr[i] = (int) (Math.random() * value);
             while (i > 0 && arr[i - 1] == arr[i]) {
                 arr[i] = (int) (Math.random() * value);
@@ -77,6 +79,7 @@ public class BinarySearch04 {
 
     /**
      * 校验相邻位置，不相等的数组
+     *
      * @param arr
      * @return
      */
@@ -90,8 +93,8 @@ public class BinarySearch04 {
     }
 
     public static void main(String[] args) {
-        int length = 10;
-        int value = 100;
+        int length = 20;
+        int value = 200;
 //        for (int i = 0; i < 1000; i++) {
 //            int[] arr = getInt(length, value);
 //            bubbleSort(arr);
@@ -114,15 +117,18 @@ public class BinarySearch04 {
 //        }
 
 
-        for (int i = 0; i < 10; i++) {
+        System.out.println("开始~");
+        for (int i = 0; i < 1000; i++) {
             int[] arr1 = getInt1(length, value);
-            System.out.println(Arrays.toString(arr1));
             int randomNum = findRandomNum(arr1);
-            System.out.println("randomNum:" + randomNum);
-
+            if (!checkout(arr1, randomNum)) {
+                System.out.println(Arrays.toString(arr1));
+                System.out.println("randomNum:" + randomNum);
+                break;
+            }
         }
+        System.out.println("结束~");
     }
-
 
 
     // 有序数据中是否包含某个值
@@ -173,27 +179,49 @@ public class BinarySearch04 {
         return index;
     }
 
+    // 局部最小 相邻不相等 √
     private static int findRandomNum(int[] arr) {
-        if (arr == null || arr.length == 1) {
+        if (arr == null || arr.length == 0) {
             return -1;
         }
         int length = arr.length;
-        if (arr[0] <= arr[1] || arr[length - 2] >= arr[length - 1]) {
-            return -1;
+        if (length == 1) {
+            return 0;
         }
+
+        if (arr[0] < arr[1]) {
+            return 0;
+        }
+        if (arr[length - 2] > arr[length - 1]) {
+            return length - 1;
+        }
+
         int l = 0;
         int r = length - 1;
         int min = (l + r) / 2;
-        while (l <= r) {
+        while (l < r - 1) { // 保证还有三个数 l r-1 r
             min = (l + r) / 2;
-            if (arr[min - 1] < arr[min] && arr[min] < arr[min + 1]) {
+            if (arr[min] < arr[min - 1] && arr[min] < arr[min + 1]) {
                 return min;
-            } else if (arr[min - 1] < arr[min]) {
-                r = min - 1;
-            } else if (arr[min] > arr[min + 1]) {
-                l = min + 1;
+            } else {
+                if (arr[min] > arr[min - 1]) {
+                    r = min - 1;
+                } else {
+                    l = min + 1;
+                }
             }
         }
-        return -1;
+        return arr[l] < arr[r] ? l : r;
+    }
+
+    // 验证 局部最小 相邻不相等 √
+    static boolean checkout(int[] arr, int index) {
+        if (index == 0 && arr[index] < arr[index + 1]) {
+            return true;
+        }
+        if (index == arr.length - 1 && arr[index] < arr[index - 1]) {
+            return true;
+        }
+        return arr[index] < arr[index - 1] && arr[index] < arr[index + 1];
     }
 }
